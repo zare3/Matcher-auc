@@ -36,10 +36,15 @@ class Find extends React.Component {
 
   getNext() {
     this.setState({
-      img: "http://www.hmcoloringpages.com/wp-content/uploads/person-silhouette-9.gif",
-      name: Math.random().toString(36).substring(7),
-      description: Math.random().toString(36).substring(7)
-    })
+      img:
+        "http://www.hmcoloringpages.com/wp-content/uploads/person-silhouette-9.gif",
+      name: Math.random()
+        .toString(36)
+        .substring(7),
+      description: Math.random()
+        .toString(36)
+        .substring(7)
+    });
   }
 
   render() {
@@ -49,11 +54,23 @@ class Find extends React.Component {
         <h3 className="Match__name">{this.state.name}</h3>
         <h5 className="Match__description">"{this.state.description}"</h5>
         <ButtonToolbar>
-          <Button onClick={this.onLike.bind(this)} className="like" variant="primary" size="lg" active>
-            Like
-          </Button>
-          <Button onClick={this.onDislike.bind(this)} className="dislike" variant="secondary" size="lg" active>
+          <Button
+            onClick={this.onDislike.bind(this)}
+            className="dislike"
+            variant="secondary"
+            size="lg"
+            active
+          >
             Dislike
+          </Button>
+          <Button
+            onClick={this.onLike.bind(this)}
+            className="like"
+            variant="primary"
+            size="lg"
+            active
+          >
+            Like
           </Button>
         </ButtonToolbar>
       </div>
