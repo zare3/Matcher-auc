@@ -1,0 +1,10 @@
+.Profile__img {
+  width: 10em;
+  border: 1px solid #dddddd;
+  display: block;
+  margin: auto;
+}
+
+.Profile__name {
+  text-align: center;
+}

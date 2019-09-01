@@ -1,0 +1,18 @@
+
+.Preferences .tab-content {
+  padding-top: 1em;
+}
+
+.Preferences .react-calendar {
+  padding: 0.5em;
+}
+
+.Preferences .nav-tabs a {
+  width: 10em;
+  text-align: center;
+}
+
+.Preferences .nav-tabs {
+    border-bottom: 1px solid #9e9e9e;
+    padding: 3px;
+}

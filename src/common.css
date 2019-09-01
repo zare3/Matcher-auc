@@ -1,0 +1,28 @@
+.space-below {
+  margin-bottom: 20px;
+}
+
+.space-below-small {
+  margin-bottom: 5px;
+}
+
+.space-below-large {
+  margin-bottom: 30px;
+}
+
+body {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
+.Router__content {
+  padding: 2em;
+  background-color: rgb(208,136,19, 0.3);
+}
+
+.navbar-light .navbar-nav .selected {
+  color: black;
+}
+
+.navbar-brand {
+  color: rgb(208,136,19) !important;
+}

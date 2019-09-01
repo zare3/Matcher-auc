@@ -1,0 +1,31 @@
+.Match__img {
+  width: 10em;
+  border: 1px solid #dddddd;
+  display: block;
+  margin: auto;
+}
+
+.Match__name {
+  text-align: center;
+}
+
+.Match__description {
+  text-align: center;
+}
+
+.Match .btn-toolbar {
+  justify-content: center;
+}
+
+.Match button {
+  margin: 0.2em;
+  border-style: none;
+}
+
+.Match .like {
+  background-color: #19ca19 !important;
+}
+
+.Match .dislike {
+  background-color: #ad1616 !important;
+}

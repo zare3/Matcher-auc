@@ -1,0 +1,16 @@
+
+.GenderSelector button {
+  width: 7em;
+  border: none;
+}
+
+.GenderSelector .selected {
+  background-color: rgb(208,136,19);
+  color: white;
+  text-decoration: underline;
+}
+
+.GenderSelector .unselected {
+  background-color: white;
+  color: black;
+}
