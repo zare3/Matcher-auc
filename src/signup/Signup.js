@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import IdentityManager from "../identity/IdentityManager.js";
 import {Redirect} from "react-router-dom";
+import UsersApiClient from "../api/user/client.js";
 
 const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 
@@ -10,6 +11,7 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.identityManager = new IdentityManager();
+    this.api = UsersApiClient;
     this.state = {
       email: null,
       password: null,
@@ -18,15 +20,18 @@ class Signup extends React.Component {
   }
 
   componentDidMount() {
-    this.identityManager.isAuthenticated(() => {
-      this.setState({
-        isAuthenticated: true
-      })
-    }, () => {
-      this.setState({
-        isAuthenticated: false
-      })
-    })
+    this.identityManager.isAuthenticated(
+      () => {
+        this.setState({
+          isAuthenticated: true
+        });
+      },
+      () => {
+        this.setState({
+          isAuthenticated: false
+        });
+      }
+    );
   }
 
   onChangePassword(ev) {
@@ -42,7 +47,13 @@ class Signup extends React.Component {
       this.state.email,
       this.state.password,
       user => {
-        if (user) this.onSignin();
+        if (user) {
+          console.log("Signup: here is the email: ", user.getUsername());
+          this.api.create(result => {
+            console.log("Users create api responded with: ", result);
+            this.onSignin();
+          });
+        }
       },
       err => {
         this.setState({
