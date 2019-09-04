@@ -1,111 +1,121 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import Profile from "../profile/Profile.js";
-import Matches from "../matches/Matches.js";
-import Find from "../find/Find.js";
-import Preferences from "../preferences/Preferences.js";
+import ProfileImpl from "../profile/Profile.js";
+import MatchesImpl from "../matches/Matches.js";
+import FindImpl from "../find/Find.js";
+import {NavLink} from "react-router-dom";
+import PreferencesImpl from "../preferences/Preferences.js";
+import SignupImpl from "../signup/Signup.js";
+import IdentityManager from "../identity/IdentityManager.js";
+import {BrowserRouter as Router, Route, Link, Redirect} from "react-router-dom";
 
-class Router extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showProfile: false,
-      showMatches: false,
-      showFind: true,
-      showPreferences: false
-    };
-  }
+require("./header.css");
+require("./common.css");
 
-  showProfilePage() {
-    this.reset();
-    this.setState({
-      showProfile: true
-    });
-  }
+const SELECTED_TAB_STYLE = {color: "rgb(208,136,19)"};
+const IDENTITY_MANGER = new IdentityManager();
 
-  showMatches() {
-    this.reset();
-    this.setState({
-      showMatches: true
-    });
-  }
+/* Initialize authentication state */
+const AUTHENTICATOR = {
+  isAuthenticated: false
+};
 
-  showFind() {
-    this.reset();
-    this.setState({
-      showFind: true
-    });
-  }
+IDENTITY_MANGER.isAuthenticated(() => {
+  AUTHENTICATOR.isAuthenticated = true;
+}, () => {
+  AUTHENTICATOR.isAuthenticated = false;
+});
+/*****************************************************************************************/
 
-  showPreferences() {
-    this.reset();
-    this.setState({
-      showPreferences: true
-    });
-  }
-
-  reset() {
-    this.setState({
-      showProfile: false,
-      showMatches: false,
-      showFind: false,
-      showPreferences: false
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <Navbar bg="light" expand="lg">
-          <Navbar.Brand>Matcher@aucegypt.edu</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link
-                className={this.state.showFind ? "selected" : ""}
-                onClick={() => {
-                  this.showFind();
-                }}
-              >
-                Find
-              </Nav.Link>
-              <Nav.Link
-                className={this.state.showMatches ? "selected" : ""}
-                onClick={() => {
-                  this.showMatches();
-                }}
-              >
-                Matches
-              </Nav.Link>
-              <Nav.Link
-                className={this.state.showProfile ? "selected" : ""}
-                onClick={() => {
-                  this.showProfilePage();
-                }}
-              >
-                Profile
-              </Nav.Link>
-              <Nav.Link
-                className={this.state.showPreferences ? "selected" : ""}
-                onClick={() => {
-                  this.showPreferences();
-                }}
-              >
-                Preferences
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-        <div className="Router__content">
-          {this.state.showProfile && <Profile />}
-          {this.state.showMatches && <Matches />}
-          {this.state.showFind && <Find />}
-          {this.state.showPreferences && <Preferences />}
-        </div>
-      </div>
+/* keep polling for authentication state and update isAuthenticated accordingly */
+function initAuthRetrievalTask() {
+  setInterval(function() {
+    IDENTITY_MANGER.isAuthenticated(
+      user => {
+        AUTHENTICATOR.isAuthenticated = true;
+      },
+      err => {
+        AUTHENTICATOR.isAuthenticated = false;
+      }
     );
-  }
+  }, 5000);
+}
+/*****************************************************************************************/
+
+function Profile() {
+  return <ProfileImpl />;
 }
 
-export default Router;
+function Matches() {
+  return <MatchesImpl />;
+}
+
+function Find() {
+  return <FindImpl />;
+}
+
+function Signup() {
+  return <SignupImpl />;
+}
+
+function Preferences() {
+  return <PreferencesImpl />;
+}
+
+function AppRouter() {
+  initAuthRetrievalTask();
+  return (
+    <Router>
+      <div>
+        /* Pages that require authentication should be declared as <PrivateRoute/>*/
+        <PrivateRoute path="/" exact component={Find} />
+        <PrivateRoute path="/profile/" component={Profile} />
+        <PrivateRoute path="/matches/" component={Matches} />
+        <PrivateRoute path="/preferences/" component={Preferences} />
+
+        /* Pages that don't require authentication should be declared as <Route/>*/
+        <Route path="/signup" component={Signup} />
+      </div>
+    </Router>
+  );
+}
+
+const PrivateRoute = ({component: Component, ...rest}) => (
+  <Route
+    {...rest}
+    render={props =>
+      ((props.location && props.location.state && props.location.state.isAuthenticated) || AUTHENTICATOR.isAuthenticated) ? (
+        <div>
+          <Navbar bg="light" expand="lg" className="Router__Navbar">
+            <Navbar.Brand>Matcher@aucegypt.edu</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="mr-auto">
+                <NavLink exact to="/" activeStyle={SELECTED_TAB_STYLE}>
+                  Find
+                </NavLink>
+                <NavLink to="/profile/" activeStyle={SELECTED_TAB_STYLE}>
+                  Profile
+                </NavLink>
+                <NavLink to="/matches/" activeStyle={SELECTED_TAB_STYLE}>
+                  Matches
+                </NavLink>
+                <NavLink to="/preferences/" activeStyle={SELECTED_TAB_STYLE}>
+                  Preferences
+                </NavLink>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+          <div className="content">
+          <Component {...props} />
+          </div>
+        </div>
+      ) : (
+        <Redirect to="/signup" />
+      )
+    }
+  />
+);
+
+export default AppRouter;

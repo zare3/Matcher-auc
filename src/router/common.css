@@ -14,7 +14,7 @@ body {
   font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
-.Router__content {
+.content {
   padding: 2em;
   background-color: rgb(208,136,19, 0.3);
 }
@@ -24,5 +24,5 @@ body {
 }
 
 .navbar-brand {
-  color: rgb(208,136,19) !important;
+  color: #000000 !important;
 }
