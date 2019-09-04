@@ -63,18 +63,17 @@ function Preferences() {
   return <PreferencesImpl />;
 }
 
+//Pages that require authentication should be declared as <PrivateRoute/>
+//Pages that don't require authentication should be declared as <Route/>
 function AppRouter() {
   initAuthRetrievalTask();
   return (
     <Router>
       <div>
-        /* Pages that require authentication should be declared as <PrivateRoute/>*/
         <PrivateRoute path="/" exact component={Find} />
         <PrivateRoute path="/profile/" component={Profile} />
         <PrivateRoute path="/matches/" component={Matches} />
         <PrivateRoute path="/preferences/" component={Preferences} />
-
-        /* Pages that don't require authentication should be declared as <Route/>*/
         <Route path="/signup" component={Signup} />
       </div>
     </Router>

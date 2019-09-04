@@ -17,6 +17,18 @@ class Signup extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.identityManager.isAuthenticated(() => {
+      this.setState({
+        isAuthenticated: true
+      })
+    }, () => {
+      this.setState({
+        isAuthenticated: false
+      })
+    })
+  }
+
   onChangePassword(ev) {
     this.setState({password: ev.target.value});
   }
@@ -45,13 +57,11 @@ class Signup extends React.Component {
       this.state.email,
       this.state.password,
       token => {
-        console.log("auth true");
         this.setState({
           isAuthenticated: true
         });
       },
       err => {
-        console.log("auth false");
         this.setState({
           isAuthenticated: false
         });
@@ -60,9 +70,8 @@ class Signup extends React.Component {
   }
 
   render() {
-    console.log("AUTHENTICATED: ", this.state.isAuthenticated);
     let component = (
-      <div className="Signup">
+      <div className="Signup content">
         <Form>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
