@@ -6,7 +6,7 @@ import MatchesImpl from "../matches/Matches.js";
 import FindImpl from "../find/Find.js";
 import {NavLink} from "react-router-dom";
 import PreferencesImpl from "../preferences/Preferences.js";
-import SignupImpl from "../signup/Signup.js";
+import AuthenticaionImpl from "../authentication/Authentication.js";
 import IdentityManager from "../identity/IdentityManager.js";
 import {BrowserRouter as Router, Route, Link, Redirect} from "react-router-dom";
 
@@ -55,8 +55,8 @@ function Find() {
   return <FindImpl />;
 }
 
-function Signup() {
-  return <SignupImpl />;
+function Authentication() {
+  return <AuthenticaionImpl />;
 }
 
 function Preferences() {
@@ -74,7 +74,7 @@ function AppRouter() {
         <PrivateRoute path="/profile/" component={Profile} />
         <PrivateRoute path="/matches/" component={Matches} />
         <PrivateRoute path="/preferences/" component={Preferences} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/authentication/" component={Authentication} />
       </div>
     </Router>
   );
@@ -111,7 +111,7 @@ const PrivateRoute = ({component: Component, ...rest}) => (
           </div>
         </div>
       ) : (
-        <Redirect to="/signup" />
+        <Redirect to="/authentication/" />
       )
     }
   />

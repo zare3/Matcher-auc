@@ -8,9 +8,14 @@ const POOL_DATA = {
 };
 
 class IdentityManager {
-  constructor() {
-    this.email = null;
-    this.password = null;
+  verify(cognitoUser, code, success, failure) {
+    cognitoUser.confirmRegistration(code, true, function(err, result) {
+      if (err) {
+        failure(err);
+        return;
+      }
+      success(cognitoUser);
+    });
   }
 
   signup(email, password, success, failure) {
@@ -28,10 +33,10 @@ class IdentityManager {
       function(err, result) {
         if (err) {
           console.error(err);
-          failure(err)
+          failure(err);
           return;
         }
-        console.log("SIGN UP DONE: ", result.user)
+        console.log("SIGN UP DONE: ", result.user);
         success(result.user);
       }
     );
@@ -64,8 +69,8 @@ class IdentityManager {
   getCurrentUser(success, failure) {
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(POOL_DATA);
     var cognitoUser = userPool.getCurrentUser();
-    if(!cognitoUser) {
-      if(failure) failure("No valid user")
+    if (!cognitoUser) {
+      if (failure) failure("No valid user");
       return;
     }
     cognitoUser.getSession(function(err, session) {
@@ -79,7 +84,7 @@ class IdentityManager {
   }
 
   isAuthenticated(success, failure) {
-    this.getCurrentUser(success, failure)
+    this.getCurrentUser(success, failure);
   }
 }
 

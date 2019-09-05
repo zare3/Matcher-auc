@@ -3,11 +3,13 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import IdentityManager from "../identity/IdentityManager.js";
 import {Redirect} from "react-router-dom";
+import Verification from "./Verification.js";
+import LoginForm from "./LoginForm.js";
 import UsersApiClient from "../api/user/client.js";
 
 const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 
-class Signup extends React.Component {
+class Authentication extends React.Component {
   constructor(props) {
     super(props);
     this.identityManager = new IdentityManager();
@@ -15,7 +17,8 @@ class Signup extends React.Component {
     this.state = {
       email: null,
       password: null,
-      isAuthenticated: false
+      isAuthenticated: false,
+      nonVerifiedSignedUpUser: null
     };
   }
 
@@ -34,24 +37,20 @@ class Signup extends React.Component {
     );
   }
 
-  onChangePassword(ev) {
-    this.setState({password: ev.target.value});
-  }
-
-  onChangEmail(ev) {
-    this.setState({email: ev.target.value});
-  }
-
-  onSignup() {
+  onSignup(email, password) {
     this.identityManager.signup(
-      this.state.email,
-      this.state.password,
+      email,
+      password,
       user => {
         if (user) {
           console.log("Signup: here is the email: ", user.getUsername());
           this.api.create(result => {
             console.log("Users create api responded with: ", result);
-            this.onSignin();
+            user.email = email;
+            user.password = password;
+            this.setState({
+              nonVerifiedSignedUpUser: user
+            });
           });
         }
       },
@@ -63,10 +62,10 @@ class Signup extends React.Component {
     );
   }
 
-  onSignin() {
+  onSignin(email, password) {
     this.identityManager.signin(
-      this.state.email,
-      this.state.password,
+      email,
+      password,
       token => {
         this.setState({
           isAuthenticated: true
@@ -81,45 +80,8 @@ class Signup extends React.Component {
   }
 
   render() {
-    let component = (
-      <div className="Signup content">
-        <Form>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              onChange={this.onChangEmail.bind(this)}
-              type="email"
-              placeholder="Enter email"
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              onChange={this.onChangePassword.bind(this)}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Group>
-          <Button
-            onClick={this.onSignup.bind(this)}
-            variant="primary"
-            type="button"
-          >
-            Signup
-          </Button>
-          <Button
-            onClick={this.onSignin.bind(this)}
-            variant="primary"
-            type="button"
-          >
-            Signin
-          </Button>
-        </Form>
-      </div>
-    );
-
     if (this.state.isAuthenticated)
-      component = (
+      return (
         <Redirect
           to={{
             pathname: "/",
@@ -127,8 +89,25 @@ class Signup extends React.Component {
           }}
         />
       );
-    return component;
+    else if (
+      this.state.nonVerifiedSignedUpUser &&
+      !this.state.isAuthenticated
+    ) {
+      return (
+        <Verification
+          user={this.state.nonVerifiedSignedUpUser}
+          onVerify={this.onSignin.bind(this)}
+        />
+      );
+    } else {
+      return (
+        <LoginForm
+          onSignup={this.onSignup.bind(this)}
+          onSignin={this.onSignin.bind(this)}
+        />
+      );
+    }
   }
 }
 
-export default Signup;
+export default Authentication;
