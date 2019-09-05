@@ -1,12 +1,12 @@
 import React from "react";
-import css from "./preferences.css";
 import Form from "react-bootstrap/Form";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import GenderSelector from "./GenderSelector.js";
 import Calendar from "react-calendar";
 import InputRange from "react-input-range";
-import InputRangeStyle from "react-input-range/lib/css/index.css";
+
+require("./preferences.css")
 
 class Preferences extends React.Component {
   constructor(props) {

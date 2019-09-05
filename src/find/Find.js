@@ -1,7 +1,8 @@
 import React from "react";
-import css from "./find.css";
 import Button from "react-bootstrap/Button";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
+
+require ("./find.css")
 
 class Find extends React.Component {
   constructor(props) {
@@ -50,7 +51,7 @@ class Find extends React.Component {
   render() {
     return (
       <div className="Match">
-        <img className="Match__img space-below" src={this.state.img} />
+        <img className="Match__img space-below" src={this.state.img} alt=""/>
         <h3 className="Match__name">{this.state.name}</h3>
         <h5 className="Match__description">"{this.state.description}"</h5>
         <ButtonToolbar>

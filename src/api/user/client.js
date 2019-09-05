@@ -18,10 +18,11 @@ class UsersApiClient {
     this.api
       .invokeApi(pathParams, pathTemplate, method, additionalParams, body)
       .then(function(result) {
-        success(result)
+        success(result);
       })
       .catch(function(result) {
-        failure(result)
+        console.error(result);
+        if (failure) failure(result);
       });
   }
 }

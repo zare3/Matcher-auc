@@ -1,13 +1,9 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import IdentityManager from "../identity/IdentityManager.js";
 import {Redirect} from "react-router-dom";
 import Verification from "./Verification.js";
 import LoginForm from "./LoginForm.js";
 import UsersApiClient from "../api/user/client.js";
-
-const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 
 class Authentication extends React.Component {
   constructor(props) {
@@ -15,8 +11,6 @@ class Authentication extends React.Component {
     this.identityManager = new IdentityManager();
     this.api = UsersApiClient;
     this.state = {
-      email: null,
-      password: null,
       isAuthenticated: false,
       nonVerifiedSignedUpUser: null
     };

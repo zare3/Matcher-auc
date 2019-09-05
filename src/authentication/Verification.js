@@ -2,10 +2,6 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import IdentityManager from "../identity/IdentityManager.js";
-import {Redirect} from "react-router-dom";
-import UsersApiClient from "../api/user/client.js";
-
-const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 
 class Verification extends React.Component {
   constructor(props) {

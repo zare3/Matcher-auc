@@ -1,6 +1,7 @@
 import React from "react";
-import css from "./profile.css";
 import Form from "react-bootstrap/Form";
+
+require ("./profile.css")
 
 class Profile extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class Profile extends React.Component {
   render() {
     return (
       <div className="Profile">
-        <img className="Profile__img space-below" src={this.state.img} />
+        <img className="Profile__img space-below" src={this.state.img} alt=""/>
         <h2 className="Profile__name">{this.state.name}</h2>
         <hr />
         <Form.Group className="Profile__description">

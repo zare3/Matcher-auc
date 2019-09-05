@@ -8,7 +8,7 @@ import {NavLink} from "react-router-dom";
 import PreferencesImpl from "../preferences/Preferences.js";
 import AuthenticaionImpl from "../authentication/Authentication.js";
 import IdentityManager from "../identity/IdentityManager.js";
-import {BrowserRouter as Router, Route, Link, Redirect} from "react-router-dom";
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 
 require("./header.css");
 require("./common.css");

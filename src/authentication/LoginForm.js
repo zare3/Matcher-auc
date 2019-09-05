@@ -3,8 +3,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import IdentityManager from "../identity/IdentityManager.js";
 
-const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
-
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);

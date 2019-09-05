@@ -1,7 +1,8 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import css from "./gender-selector.css";
+
+require("./gender-selector.css")
 
 class GenderSelector extends React.Component {
   constructor(props) {
