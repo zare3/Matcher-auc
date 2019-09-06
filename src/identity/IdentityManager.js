@@ -36,7 +36,6 @@ class IdentityManager {
           failure(err);
           return;
         }
-        console.log("SIGN UP DONE: ", result.user);
         success(result.user);
       }
     );
