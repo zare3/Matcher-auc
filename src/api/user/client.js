@@ -9,11 +9,16 @@ class UsersApiClient {
     this.api = apigUsersClientFactory.newClient(config);
   }
 
-  create(success, failure) {
+  create(email, success, failure) {
     var pathParams = {};
     var pathTemplate = "/";
     var method = "POST";
-    var additionalParams = {};
+    var additionalParams = {
+      queryParams: {
+        id: email,
+        email: email
+      }
+    };
     var body = {};
     this.api
       .invokeApi(pathParams, pathTemplate, method, additionalParams, body)

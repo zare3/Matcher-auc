@@ -38,7 +38,7 @@ class Authentication extends React.Component {
       user => {
         if (user) {
           console.log("Signup: here is the email: ", user.getUsername());
-          this.api.create(result => {
+          this.api.create(user.getUsername(), result => {
             console.log("Users create api responded with: ", result);
             user.email = email;
             user.password = password;
